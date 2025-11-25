@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import { Github, Linkedin, Mail, Twitter, Instagram } from "lucide-react";
+import { Github, Linkedin, Mail, Twitter, Instagram, FileText } from "lucide-react";
 
 export default function ProfileCard() {
   return (
@@ -30,10 +30,10 @@ export default function ProfileCard() {
           </div>
         </div>
 
-        <SocialButton
-          href="mailto:prathamaagustyan@gmail.com"
-          icon={<Mail className="w-4 h-4" />}
-          label="Mail"
+        <SocialButton 
+          href="/CV Prathama Agustyan Zuhri.pdf" 
+          icon={<FileText className="w-4 h-4" />} 
+          label="Download CV" 
         />
       </div>
 
