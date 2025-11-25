@@ -1,4 +1,4 @@
-"use client"; 
+"use client";
 
 import React, { useState } from "react";
 import ProfileCard from "@/components/bento/ProfileCard";
@@ -9,15 +9,14 @@ import StatusCard from "@/components/bento/StatusCard";
 import SpotifyCard from "@/components/bento/SpotifyCard";
 import Navbar from "@/components/ui/Navbar";
 import { ArrowUpRight } from "lucide-react";
-import { cn } from "@/lib/utils"; 
+import { cn } from "@/lib/utils";
 
 const projects = [
   {
     title: "SMKN 1 Cikarang Barat Website",
     description:
       "Comprehensive dashboard for managing products, orders, and analytics.",
-    image:
-      "/project-saciba.png",
+    image: "/project-saciba.png",
     video:
       "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4",
     tags: ["PHP", "MySQL", "JavaScript"],
@@ -26,8 +25,7 @@ const projects = [
   {
     title: "SMKS Dharma Paramitha Website",
     description: "Responsive chat interface with OpenAI streaming support.",
-    image:
-      "/project-smkdharma.png",
+    image: "/project-smkdharma.png",
     video:
       "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
     tags: ["PHP", "MySQL", "JavaScript"],
@@ -36,19 +34,20 @@ const projects = [
   {
     title: "AbsenSACIBA",
     description: "Centralized API documentation platform.",
-    image:
-      "/project-absensaciba.png",
+    image: "/project-absensaciba.png",
     video:
       "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
     tags: ["PHP", "MySQL", "Chart.js"],
-    links: { demo: "https://absensaciba.systechkreasimediatama.my.id/", repo: "#" },
+    links: {
+      demo: "https://absensaciba.systechkreasimediatama.my.id/",
+      repo: "#",
+    },
   },
   {
     title: "E-Rapor SACIBA",
     description:
       "A platform for travelers to document trips with map integration.",
-    image:
-      "/project-erapor.png",
+    image: "/project-erapor.png",
     video:
       "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4",
     tags: ["PHP", "MySQL", "Datatables"],
@@ -60,7 +59,7 @@ export default function Home() {
   const [activeTab, setActiveTab] = useState("all");
 
   const getItemClass = (category: string) => {
-    if (activeTab === "all") return "opacity-100 blur-0 scale-100"; 
+    if (activeTab === "all") return "opacity-100 blur-0 scale-100";
 
     if (category === "always-visible") return "opacity-100 blur-0 scale-100";
 
@@ -78,7 +77,6 @@ export default function Home() {
       </div>
 
       <section className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 auto-rows-[180px]">
-      
         <div
           className={cn(
             "col-span-1 md:col-span-2 row-span-2",
@@ -176,7 +174,10 @@ export default function Home() {
             getItemClass("always-visible")
           )}
         >
-          <div className="bg-zinc-100 text-zinc-950 rounded-3xl p-6 flex items-center justify-between hover:scale-[1.01] transition-transform cursor-pointer group h-full">
+          <a
+            href="mailto:prathamaagustyan@gmail.com"
+            className="bg-zinc-100 text-zinc-950 rounded-3xl p-6 flex items-center justify-between hover:scale-[1.01] transition-transform cursor-pointer group h-full w-full"
+          >
             <div>
               <h3 className="text-2xl font-bold">Let's work together</h3>
               <p className="text-zinc-600">Have a project in mind?</p>
@@ -184,7 +185,7 @@ export default function Home() {
             <div className="w-12 h-12 bg-zinc-950 rounded-full flex items-center justify-center group-hover:rotate-45 transition-transform duration-300">
               <ArrowUpRight className="text-white w-6 h-6" />
             </div>
-          </div>
+          </a>
         </div>
       </section>
     </main>
