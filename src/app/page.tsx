@@ -15,28 +15,28 @@ const projects = [
   {
     title: "SMKN 1 Cikarang Barat Website",
     description:
-      "Comprehensive dashboard for managing products, orders, and analytics.",
+      "A streamlined information portal for SMKN 1 Cikarang Barat, designed to deliver news and announcements quickly and clearly to the entire school community.",
     image: "/project-saciba.png",
     video:
-      "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4",
+      "/saciba-demo.mp4",
     tags: ["PHP", "MySQL", "JavaScript"],
     links: { demo: "https://smkn1cikarangbarat.sch.id/", repo: "#" },
   },
   {
     title: "SMKS Dharma Paramitha Website",
-    description: "Responsive chat interface with OpenAI streaming support.",
+    description: "School information website for SMKS Dharma Paramitha.",
     image: "/project-smkdharma.png",
     video:
-      "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
+      "/smksdharma-demo.mp4",
     tags: ["PHP", "MySQL", "JavaScript"],
     links: { demo: "https://smksdharmaparamitha.sch.id/", repo: "#" },
   },
   {
     title: "AbsenSACIBA",
-    description: "Centralized API documentation platform.",
+    description: "Teacher Attendance System for SMKN 1 Cikarang Barat.",
     image: "/project-absensaciba.png",
     video:
-      "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+      "/absensaciba-demo.mp4",
     tags: ["PHP", "MySQL", "Chart.js"],
     links: {
       demo: "https://absensaciba.systechkreasimediatama.my.id/",
@@ -46,10 +46,10 @@ const projects = [
   {
     title: "E-Rapor SACIBA",
     description:
-      "A platform for travelers to document trips with map integration.",
+      "Teacher portal for student grade input at SMKN 1 Cikarang Barat.",
     image: "/project-erapor.png",
     video:
-      "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4",
+      "/erapor-saciba.mp4",
     tags: ["PHP", "MySQL", "Datatables"],
     links: { demo: "https://erapor.systechkreasimediatama.my.id/", repo: "#" },
   },

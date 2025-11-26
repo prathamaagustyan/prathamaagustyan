@@ -43,8 +43,7 @@ export default function ProfileCard() {
         </h2>
         <p className="text-emerald-400 font-medium mt-1">Website Developer</p>
         <p className="text-zinc-400 text-sm mt-4 leading-relaxed max-w-sm">
-          I build accessible, pixel-perfect, secure, and performant web
-          applications with modern technologies.
+          I build secure, efficient websites and continuously expand my skills with modern technologies.
         </p>
       </div>
 
