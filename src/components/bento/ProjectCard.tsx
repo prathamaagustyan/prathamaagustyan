@@ -80,7 +80,7 @@ export default function ProjectCard({ data }: { data: ProjectProps }) {
           <Button
             size="icon"
             variant="outline"
-            className="rounded-full w-9 h-9 bg-zinc-950/50 border-white/10 text-zinc-300 hover:bg-emerald-500 hover:text-white hover:border-emerald-500 hover:scale-110 transition-all backdrop-blur-md"
+            className="relative overflow-hidden rounded-full w-9 h-9 bg-zinc-950/30 backdrop-blur-xl border-white/20 text-zinc-300 shadow-[0_4px_12px_rgba(0,0,0,0.1)] hover:bg-emerald-500 hover:text-white hover:border-emerald-500 hover:scale-110 transition-all duration-300 group"
             asChild
           >
             <a
@@ -96,7 +96,7 @@ export default function ProjectCard({ data }: { data: ProjectProps }) {
           <Button
             size="icon"
             variant="outline"
-            className="rounded-full w-9 h-9 bg-zinc-950/50 border-white/10 text-zinc-300 hover:bg-emerald-500 hover:text-white hover:border-emerald-500 hover:scale-110 transition-all backdrop-blur-md"
+            className="relative overflow-hidden rounded-full w-9 h-9 bg-zinc-950/30 backdrop-blur-xl border-white/20 text-zinc-300 shadow-[0_4px_12px_rgba(0,0,0,0.1)] hover:bg-emerald-500 hover:text-white hover:border-emerald-500 hover:scale-110 transition-all duration-300 group"
             asChild
           >
             <a

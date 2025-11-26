@@ -37,7 +37,7 @@ const customStyle = `
 export default function SpotifyCard() {
   return (
     <a
-      href="https://open.spotify.com/track/0mPYjKXaHYMPhtq0hCIkgn?si=ee1eb8c7e6874fe1"
+      href="https://open.spotify.com/track/1x1oCGsFUDViOvcISuoKW0?si=e5224137fd97407e"
       target="_blank"
       rel="noopener noreferrer"
       className="relative flex flex-col items-center justify-center h-full w-full p-4 overflow-hidden bg-zinc-900/50 border border-zinc-800/50 rounded-3xl group hover:border-emerald-500/50 hover:bg-zinc-900/80 transition-all duration-500"
@@ -69,7 +69,7 @@ export default function SpotifyCard() {
             <div className="absolute inset-0 z-30 opacity-20 mix-blend-overlay pointer-events-none bg-[url('https://grainy-gradients.vercel.app/noise.svg')]"></div>
 
             <Image
-              src="https://i.scdn.co/image/ab67616d0000b273ee26bd5ae483fc54e6ef9e74"
+              src="https://i.scdn.co/image/ab67616d00001e020fc598038040859794c600e2"
               alt="Album Art"
               fill
               className="object-cover"
@@ -83,11 +83,11 @@ export default function SpotifyCard() {
       <div className="flex flex-col items-center text-center z-10 mt-4 w-full px-2">
         <div className="relative overflow-hidden w-full">
           <h3 className="text-zinc-100 font-bold text-xs leading-tight group-hover:text-[#1DB954] transition-colors line-clamp-1 w-full relative z-10">
-            ADORE U
+            Live My Life
           </h3>
         </div>
         <p className="text-zinc-500 font-medium text-[10px] tracking-wider mt-1 group-hover:text-zinc-300 transition-colors">
-          NMIXX
+          aespa
         </p>
       </div>
     </a>
