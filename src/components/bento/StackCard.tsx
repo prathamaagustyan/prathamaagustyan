@@ -111,6 +111,7 @@ export default function StackCard() {
 
       <div className="absolute inset-0 bg-dot-pattern opacity-30 pointer-events-none" />
 
+      {/* Bagian header tempat titik 3 sebelumnya berada */}
       <div className="absolute top-0 left-0 right-0 z-20 p-5 bg-zinc-950/80 backdrop-blur-md border-b border-white/5 flex justify-between items-center">
         <h3 className="text-sm font-bold text-white tracking-widest uppercase flex items-center gap-3">
           <div className="p-2 rounded-lg border border-zinc-700 bg-zinc-900 shadow-inner">
@@ -118,12 +119,7 @@ export default function StackCard() {
           </div>
           Tech I Use
         </h3>
-
-        <div className="flex gap-2">
-          <div className="w-2.5 h-2.5 rounded-full bg-[#FF5F56] border border-[#E0443E]" />
-          <div className="w-2.5 h-2.5 rounded-full bg-[#FFBD2E] border border-[#DEA123]" />
-          <div className="w-2.5 h-2.5 rounded-full bg-[#27C93F] border border-[#1AAB29]" />
-        </div>
+        {/* Titik merah, kuning, dan hijau sudah dihapus dari sini */}
       </div>
 
       <div className="absolute inset-0 z-10 pointer-events-none bg-gradient-to-b from-zinc-950 via-transparent to-zinc-950" />
@@ -136,14 +132,14 @@ export default function StackCard() {
               className={cn(
                 "relative flex items-center gap-4 p-3 rounded-xl border border-white/5 bg-zinc-800/30 transition-all duration-300",
                 "hover:border-emerald-500/50 hover:bg-zinc-800/80 hover:shadow-[0_4px_20px_-5px_rgba(16,185,129,0.2)]",
-                "cursor-default group/item backdrop-blur-sm"
+                "cursor-default group/item backdrop-blur-sm",
               )}
             >
               <div
                 className={cn(
                   "flex items-center justify-center w-12 h-12 rounded-xl bg-zinc-950/50 border border-white/5 text-2xl text-zinc-500 transition-all duration-300 shadow-sm",
                   tech.color,
-                  "group-hover/item:scale-105 group-hover/item:border-emerald-500/30"
+                  "group-hover/item:scale-105 group-hover/item:border-emerald-500/30",
                 )}
               >
                 <tech.icon />
@@ -161,7 +157,6 @@ export default function StackCard() {
                   </span>
                 </div>
               </div>
-
             </div>
           ))}
         </div>
