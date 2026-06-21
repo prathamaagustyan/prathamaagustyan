@@ -1,0 +1,1163 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Home Workout Tracker</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f4f0e6;
+  --card: #ffffff;
+  --ink: #000000;
+  --muted: #4a4a4a;
+  --accent: #ffcc00;
+  --accent2: #b19fff;
+  --good: #4ade80;
+  --bad: #f87171;
+  --shadow: 4px 4px 0 #000;
+  --shadow-hover: 2px 2px 0 #000;
+  --radius: 12px;
+  --border: 3px solid #000;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: 'Space Grotesk', sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  background-image: radial-gradient(var(--ink) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+.wrap {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 32px 24px;
+}
+
+.hero {
+  background: var(--accent2);
+  border: var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 32px;
+  margin-bottom: 32px;
+}
+
+h1 {
+  margin: 0 0 12px;
+  font-size: clamp(32px, 4vw, 48px);
+  font-weight: 700;
+  letter-spacing: -1px;
+}
+
+.subtitle {
+  margin: 0;
+  max-width: 800px;
+  color: var(--ink);
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.6;
+}
+
+.topbar {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.stat, .panel, .day-card, .exercise, .note-box, .log-item {
+  background: var(--card);
+  border: var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.stat {
+  padding: 16px;
+  min-height: 100px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.stat-label {
+  display: block;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+
+.stat-value {
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 24px;
+  align-items: start;
+}
+
+.panel {
+  padding: 24px;
+}
+
+.panel h2, .section-title {
+  margin: 0 0 16px;
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+.muted { color: var(--muted); }
+
+.controls {
+  display: grid;
+  gap: 16px;
+}
+
+.control-row {
+  display: grid;
+  gap: 8px;
+  position: relative;
+}
+
+label {
+  font-size: 14px;
+  font-weight: 700;
+}
+
+input[type="date"], select, textarea, input[type="text"] {
+  width: 100%;
+  border: var(--border);
+  border-radius: 8px;
+  padding: 12px;
+  font-size: 15px;
+  font-family: inherit;
+  background: #fff;
+  outline: none;
+  box-shadow: 2px 2px 0 #000;
+  transition: box-shadow 0.1s ease, transform 0.1s ease;
+}
+
+input[type="date"]:focus, select:focus, textarea:focus {
+  box-shadow: 4px 4px 0 #000;
+  transform: translate(-2px, -2px);
+}
+
+textarea {
+  min-height: 120px;
+  resize: vertical;
+  line-height: 1.6;
+}
+
+.btn {
+  border: var(--border);
+  border-radius: 8px;
+  padding: 14px 20px;
+  font-size: 15px;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  background: var(--accent);
+  box-shadow: var(--shadow);
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+  text-align: center;
+  color: var(--ink);
+}
+
+.btn:hover {
+  transform: translate(2px, 2px);
+  box-shadow: var(--shadow-hover);
+}
+
+.btn.secondary { background: #fff; }
+.btn.danger { background: var(--bad); }
+.btn.good { background: var(--good); }
+
+.week-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  background: var(--card);
+  padding: 16px 24px;
+  border: var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.week-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.day-card {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.day-tag {
+  display: inline-flex;
+  align-items: center;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  padding: 6px 12px;
+  border: 2px solid #000;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  align-self: flex-start;
+  box-shadow: 2px 2px 0 #000;
+}
+
+.tag-workout { background: var(--accent); }
+.tag-rest { background: var(--accent2); }
+
+.day-title {
+  margin: 0 0 8px;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.day-subtitle {
+  margin: 0 0 16px;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.5;
+  font-weight: 600;
+}
+
+.exercise-list {
+  display: grid;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.exercise {
+  padding: 12px;
+  box-shadow: 2px 2px 0 #000;
+  border-radius: 8px;
+}
+
+.exercise-name {
+  font-weight: 700;
+  margin-bottom: 4px;
+  font-size: 15px;
+}
+
+.exercise-meta {
+  font-size: 13px;
+  color: var(--muted);
+  font-weight: 600;
+}
+
+.check-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: auto;
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+  padding: 12px;
+  border: 2px solid #000;
+  border-radius: 8px;
+  background: var(--bg);
+  transition: background 0.2s;
+}
+
+.check-row:hover {
+  background: #fff;
+}
+
+.check-row input[type="checkbox"] {
+  display: none;
+}
+
+.custom-checkbox {
+  width: 24px;
+  height: 24px;
+  border: 2px solid #000;
+  border-radius: 6px;
+  background: #fff;
+  box-shadow: 2px 2px 0 #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.1s ease;
+}
+
+.check-row input[type="checkbox"]:checked + .custom-checkbox {
+  background: var(--good);
+}
+
+.check-row input[type="checkbox"]:checked + .custom-checkbox::after {
+  content: "";
+  width: 6px;
+  height: 12px;
+  border: solid #000;
+  border-width: 0 3px 3px 0;
+  transform: rotate(45deg);
+  margin-bottom: 2px;
+}
+
+.check-row input[type="checkbox"]:disabled + .custom-checkbox {
+  background: #e0e0e0;
+  box-shadow: none;
+  cursor: not-allowed;
+}
+
+.small {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.note-box {
+  padding: 20px;
+  margin-top: 24px;
+  background: var(--accent);
+}
+
+.log-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-top: 24px;
+}
+
+.daily-log {
+  display: grid;
+  gap: 16px;
+}
+
+.day-select-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  gap: 12px;
+}
+
+.chip {
+  border: 2px solid #000;
+  border-radius: 8px;
+  padding: 10px;
+  background: #fff;
+  box-shadow: 2px 2px 0 #000;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 13px;
+  text-align: center;
+  user-select: none;
+  transition: transform 0.1s, box-shadow 0.1s;
+}
+
+.chip:hover {
+  transform: translate(1px, 1px);
+  box-shadow: 1px 1px 0 #000;
+}
+
+.chip.active {
+  background: var(--accent);
+}
+
+.saved-list {
+  display: grid;
+  gap: 16px;
+}
+
+.log-item {
+  padding: 16px;
+}
+
+.log-item-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+  font-size: 15px;
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  border: 2px solid #000;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  box-shadow: 2px 2px 0 #000;
+}
+
+.done { background: var(--good); }
+.rest { background: var(--accent2); }
+
+.footer-note {
+  margin-top: 32px;
+  padding: 24px;
+  background: var(--card);
+  border: var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.6;
+}
+
+.custom-select-wrapper {
+  position: relative;
+  user-select: none;
+  width: 100%;
+}
+.custom-select {
+  display: none;
+}
+.select-selected {
+  border: var(--border);
+  border-radius: 8px;
+  padding: 12px;
+  font-size: 15px;
+  font-weight: 600;
+  background: #fff;
+  box-shadow: 2px 2px 0 #000;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+}
+.select-selected:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 4px 4px 0 #000;
+}
+.select-selected.select-arrow-active {
+  background: var(--accent);
+}
+.select-selected::after {
+  content: "▼";
+  font-size: 12px;
+}
+.select-items {
+  position: absolute;
+  background-color: #fff;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 99;
+  border: var(--border);
+  border-radius: 8px;
+  box-shadow: 4px 4px 0 #000;
+  margin-top: 8px;
+  max-height: 220px;
+  overflow-y: auto;
+}
+.select-items div {
+  padding: 12px;
+  cursor: pointer;
+  border-bottom: 2px solid #000;
+  font-weight: 600;
+  font-size: 15px;
+}
+.select-items div:last-child {
+  border-bottom: none;
+}
+.select-items div:hover {
+  background-color: var(--accent);
+}
+.select-hide {
+  display: none;
+}
+
+.modal-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.4);
+  z-index: 1000;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(4px);
+}
+.modal-box {
+  background: var(--card);
+  border: var(--border);
+  border-radius: var(--radius);
+  padding: 24px;
+  box-shadow: 8px 8px 0 #000;
+  max-width: 400px;
+  width: 90%;
+  animation: modalPop 0.2s ease-out;
+}
+@keyframes modalPop {
+  0% { transform: scale(0.9); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+.modal-text {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 24px;
+  line-height: 1.5;
+}
+.modal-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+}
+
+@media (max-width: 1024px) {
+  .grid, .log-grid { grid-template-columns: 1fr; }
+  .week-header { flex-direction: column; align-items: flex-start; }
+}
+
+@media (max-width: 640px) {
+  .wrap { padding: 16px; }
+  .hero { padding: 24px; }
+  .topbar { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <section class="hero">
+      <h1>Home Workout Tracker</h1>
+      <p class="subtitle">
+        Jadwal 4 hari latihan, 3 hari istirahat aktif. Dilengkapi tracking harian, catatan, dan metrik progres.
+        Desain mengusung konsep Neubrutalism yang rapi, responsif, dan mudah dibaca.
+      </p>
+
+      <div class="topbar">
+        <div class="stat">
+          <span class="stat-label">Status Minggu Ini</span>
+          <div class="stat-value" id="weeklyStatus">0 / 4 Selesai</div>
+        </div>
+        <div class="stat">
+          <span class="stat-label">Agenda Hari Ini</span>
+          <div class="stat-value" id="todayStatus">-</div>
+        </div>
+        <div class="stat">
+          <span class="stat-label">Latihan Berikutnya</span>
+          <div class="stat-value" id="nextWorkout">-</div>
+        </div>
+        <div class="stat" style="background: var(--card);">
+          <span class="stat-label">Target Utama</span>
+          <div class="stat-value">Lean &amp; V-Taper</div>
+        </div>
+      </div>
+    </section>
+
+    <div class="grid">
+      <aside class="panel">
+        <h2>Kontrol Panel</h2>
+        <div class="controls">
+          <div class="control-row">
+            <label for="weekStart">Tanggal Mulai Minggu</label>
+            <input type="date" id="weekStart" />
+            <div class="small">Tentukan hari pertama untuk melacak progres.</div>
+          </div>
+
+          <div class="control-row">
+            <label for="programMode">Mode Program</label>
+            <div class="custom-select-wrapper">
+              <select id="programMode" class="custom-select">
+                <option value="4day">4 Hari / Minggu</option>
+              </select>
+            </div>
+          </div>
+
+          <button class="btn good" id="saveWeekBtn">Simpan Progres</button>
+          <button class="btn secondary" id="resetWeekBtn">Reset Centang</button>
+          <button class="btn secondary" id="exportBtn">Export Data (JSON)</button>
+          <button class="btn danger" id="clearAllBtn">Hapus Semua Data</button>
+        </div>
+
+        <div class="note-box">
+          <h3 style="margin: 0 0 8px; font-size: 16px;">Cara Penggunaan</h3>
+          <div class="small" style="line-height:1.6; color: var(--ink);">
+            1. Atur tanggal mulai pada kontrol.<br />
+            2. Centang kartu latihan yang sudah diselesaikan.<br />
+            3. Catat beban atau kendala di panel tracking bawah.<br />
+            4. Data tersimpan otomatis secara lokal di perangkat.
+          </div>
+        </div>
+      </aside>
+
+      <main>
+        <div class="week-header">
+          <div>
+            <h2 class="section-title" style="margin:0 0 4px;">Jadwal Mingguan</h2>
+            <div class="muted" id="weekRangeText" style="font-weight: 600;">-</div>
+          </div>
+          <div class="stat-value" id="progressText" style="font-size: 20px;">0%</div>
+        </div>
+
+        <section class="week-grid" id="weekGrid"></section>
+
+        <div class="log-grid">
+          <section class="panel">
+            <h2>Tracking & Catatan</h2>
+            <div class="daily-log">
+              <div class="control-row">
+                <label>Pilih Hari</label>
+                <div class="day-select-grid" id="daySelectGrid"></div>
+              </div>
+
+              <div class="control-row">
+                <label for="logText">Catatan Detail (Beban, Repetisi, Recovery)</label>
+                <textarea id="logText" placeholder="Contoh: Push-up stabil di 3x8, beban row naik ke 12kg, tidur cukup baik."></textarea>
+              </div>
+
+              <div class="control-row">
+                <label for="logRating">Tingkat Energi (1-10)</label>
+                <div class="custom-select-wrapper">
+                  <select id="logRating" class="custom-select">
+                    <option value="10">10 - Sangat Prima</option>
+                    <option value="9">9</option>
+                    <option value="8">8 - Cukup Baik</option>
+                    <option value="7">7</option>
+                    <option value="6">6</option>
+                    <option value="5">5 - Sedang</option>
+                    <option value="4">4</option>
+                    <option value="3">3</option>
+                    <option value="2">2 - Kelelahan</option>
+                    <option value="1">1</option>
+                  </select>
+                </div>
+              </div>
+
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 8px;">
+                <button class="btn good" id="saveLogBtn">Simpan</button>
+                <button class="btn secondary" id="clearLogBtn">Bersihkan</button>
+              </div>
+            </div>
+          </section>
+
+          <section class="panel">
+            <h2>Riwayat Catatan</h2>
+            <div class="saved-list" id="savedList"></div>
+          </section>
+        </div>
+
+        <div class="footer-note">
+          Struktur program telah disesuaikan agar berjalan konsisten setiap minggunya dengan proporsi latihan dan pemulihan yang seimbang. Desain interface ini mengutamakan keterbacaan data dan hirarki visual tanpa elemen dekoratif yang mengganggu fokus.
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <div id="customModal" class="modal-overlay">
+    <div class="modal-box">
+      <div id="modalText" class="modal-text"></div>
+      <div id="modalButtons" class="modal-actions"></div>
+    </div>
+  </div>
+
+  <script>
+    const DAYS = [
+      {
+        key: 'mon', day: 'Senin', type: 'workout', title: 'Day 1 — Push + Tricep + Abs',
+        subtitle: 'Fokus dada, bahu, tricep, dan core. Cocok untuk postur upper.',
+        exercises: [
+          ['Dumbbell floor press', '4 set × 8–12 reps | 8-12 kg'],
+          ['Close-grip push-up', '3 set × 6–10 reps'],
+          ['Standing DB shoulder press', '3 set × 6–10 reps | 8-12 kg'],
+          ['Lateral raise', '3 set × 12–20 reps | 1 kg / band'],
+          ['Tricep kickback', '3 set × 12–15 reps'],
+          ['DB floor skull crusher', '2 set × 10–12 reps'],
+          ['Plank', '3 set × 20–30 detik'],
+          ['Dead bug', '3 set × 8–10 reps per sisi']
+        ]
+      },
+      {
+        key: 'tue', day: 'Selasa', type: 'workout', title: 'Day 2 — Pull + Back + Biceps',
+        subtitle: 'Membantu V-taper, punggung kuat, dan postur tegap.',
+        exercises: [
+          ['One-arm dumbbell row', '4 set × 8–12 reps | 8-12 kg'],
+          ['Bent-over dumbbell row', '3 set × 10–12 reps | 8-12 kg'],
+          ['Band row', '3 set × 15–20 reps'],
+          ['Band face pull', '3 set × 15–20 reps'],
+          ['Rear delt fly', '3 set × 12–15 reps | 1 kg / band'],
+          ['Hammer curl', '3 set × 8–12 reps | 8 kg'],
+          ['Reverse curl', '2 set × 10–12 reps'],
+          ['Suitcase carry', '3 set × 30–45 detik | 12 kg']
+        ]
+      },
+      {
+        key: 'wed', day: 'Rabu', type: 'rest', title: 'Rest Aktif — Mobility',
+        subtitle: 'Pemulihan sendi, menjaga fleksibilitas dan mengurangi kaku.',
+        exercises: [
+          ['Neck mobility', '2–3 menit'],
+          ['Shoulder circles', '2 set × 10 putaran'],
+          ['Chest opener stretch', '2 set × 20–30 detik'],
+          ['Thoracic rotation', '2 set × 8 reps per sisi'],
+          ['Wrist stretch', '2 set × 20–30 detik'],
+          ['Easy walking', '10–20 menit']
+        ]
+      },
+      {
+        key: 'thu', day: 'Kamis', type: 'workout', title: 'Day 3 — Upper + Arms',
+        subtitle: 'Menjaga frekuensi stimulasi otot bagian atas tubuh.',
+        exercises: [
+          ['Single-arm DB chest press', '3 set × 8–12 reps'],
+          ['Push-up', '3 set × 6–10 reps'],
+          ['Standing DB shoulder press', '3 set × 6–10 reps'],
+          ['Band pull-apart', '3 set × 15–20 reps'],
+          ['Close-grip floor press', '3 set × 8–12 reps'],
+          ['Bicep curl', '3 set × 10–12 reps | 8 kg'],
+          ['Hammer curl', '2 set × 10–12 reps | 8 kg']
+        ]
+      },
+      {
+        key: 'fri', day: 'Jumat', type: 'rest', title: 'Rest Aktif — Recovery',
+        subtitle: 'Fokus pergerakan ringan untuk melancarkan aliran darah.',
+        exercises: [
+          ['Light walking', '10–20 menit'],
+          ['Cat-cow', '2 set × 8–10 reps'],
+          ['Band pull-apart ringan', '2 set × 15 reps'],
+          ['Hip hinge mobility', '2 set × 8 reps'],
+          ['Wrist mobility', '2 set × 20–30 detik']
+        ]
+      },
+      {
+        key: 'sat', day: 'Sabtu', type: 'workout', title: 'Day 4 — Back + Tricep + Abs',
+        subtitle: 'Penguatan area punggung bawah, core, dan lengan.',
+        exercises: [
+          ['Bent-over row', '4 set × 8–12 reps | 12 kg'],
+          ['Band straight-arm pulldown', '3 set × 15–20 reps'],
+          ['One-arm row with pause', '3 set × 10 reps | tahan 1 detik'],
+          ['Close-grip push-up', '3 set × 6–10 reps'],
+          ['Tricep kickback', '3 set × 12–15 reps'],
+          ['Lateral raise', '2 set × 15–20 reps'],
+          ['Reverse crunch', '3 set × 10–15 reps'],
+          ['Side plank', '2 set × 20–30 detik per sisi'],
+          ['Plank', '2 set × 30 detik']
+        ]
+      },
+      {
+        key: 'sun', day: 'Minggu', type: 'rest', title: 'Rest Aktif — Reset',
+        subtitle: 'Relaksasi total untuk persiapan fisik siklus minggu depan.',
+        exercises: [
+          ['Light stretching', '5–10 menit'],
+          ['Easy walk', '10–20 menit'],
+          ['Shoulder & wrist mobility', '2 set'],
+          ['Sleep quality', 'Fokus utama pemulihan']
+        ]
+      }
+    ];
+
+    const STORAGE_KEY = 'home_workout_tracker_v3';
+    const logStorageKey = 'home_workout_logs_v3';
+
+    const elements = {
+      weekStart: document.getElementById('weekStart'),
+      weekGrid: document.getElementById('weekGrid'),
+      weekRangeText: document.getElementById('weekRangeText'),
+      progressText: document.getElementById('progressText'),
+      weeklyStatus: document.getElementById('weeklyStatus'),
+      todayStatus: document.getElementById('todayStatus'),
+      nextWorkout: document.getElementById('nextWorkout'),
+      saveWeekBtn: document.getElementById('saveWeekBtn'),
+      resetWeekBtn: document.getElementById('resetWeekBtn'),
+      clearAllBtn: document.getElementById('clearAllBtn'),
+      exportBtn: document.getElementById('exportBtn'),
+      savedList: document.getElementById('savedList'),
+      daySelectGrid: document.getElementById('daySelectGrid'),
+      logText: document.getElementById('logText'),
+      logRating: document.getElementById('logRating'),
+      saveLogBtn: document.getElementById('saveLogBtn'),
+      clearLogBtn: document.getElementById('clearLogBtn'),
+      programMode: document.getElementById('programMode')
+    };
+
+    let selectedLogDay = 'mon';
+
+    function pad(n) { return String(n).padStart(2, '0'); }
+    function toDateInputValue(date) { return `${date.getFullYear()}-${pad(date.getMonth()+1)}-${pad(date.getDate())}`; }
+    function parseDateInput(value) { const [y,m,d] = value.split('-').map(Number); return new Date(y, m-1, d); }
+    function addDays(date, days) { const d = new Date(date); d.setDate(d.getDate() + days); return d; }
+    function formatDate(date) { return date.toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }); }
+    function formatShort(date) { return date.toLocaleDateString('id-ID', { day: '2-digit', month: 'short' }); }
+    
+    function loadData() { try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}; } catch { return {}; } }
+    function saveData(data) { localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); }
+    function loadLogs() { try { return JSON.parse(localStorage.getItem(logStorageKey)) || {}; } catch { return {}; } }
+    function saveLogs(data) { localStorage.setItem(logStorageKey, JSON.stringify(data)); }
+
+    function getWeekState() {
+      const data = loadData();
+      const today = new Date();
+      const defaultStart = new Date(today);
+      const day = defaultStart.getDay();
+      const diff = (day === 0 ? -6 : 1 - day);
+      defaultStart.setDate(defaultStart.getDate() + diff);
+      const startStr = data.weekStart || toDateInputValue(defaultStart);
+      return {
+        weekStart: parseDateInput(startStr),
+        completed: data.completed || {},
+        mode: data.mode || '4day'
+      };
+    }
+
+    function initControls() {
+      const state = getWeekState();
+      elements.weekStart.value = toDateInputValue(state.weekStart);
+      elements.programMode.value = state.mode;
+    }
+
+    function renderDaySelect() {
+      elements.daySelectGrid.innerHTML = '';
+      DAYS.forEach(d => {
+        const el = document.createElement('div');
+        el.className = 'chip';
+        el.textContent = d.day;
+        el.dataset.key = d.key;
+        el.addEventListener('click', () => {
+          document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+          el.classList.add('active');
+          selectedLogDay = d.key;
+          updateLogEditor();
+        });
+        elements.daySelectGrid.appendChild(el);
+      });
+    }
+
+    function updateLogEditor() {
+      const logs = loadLogs();
+      const entry = logs[selectedLogDay] || { text: '', rating: '10' };
+      elements.logText.value = entry.text || '';
+      elements.logRating.value = entry.rating || '10';
+      updateCustomSelectsValue(elements.logRating);
+      document.querySelectorAll('.chip').forEach(chip => {
+        chip.classList.toggle('active', chip.dataset.key === selectedLogDay);
+      });
+    }
+
+    function renderWeek() {
+      const { weekStart, completed } = getWeekState();
+      elements.weekGrid.innerHTML = '';
+      const end = addDays(weekStart, 6);
+      elements.weekRangeText.textContent = `${formatDate(weekStart)} — ${formatDate(end)}`;
+
+      const today = new Date();
+      let workoutDone = 0;
+      let firstRemaining = null;
+      let todayLabel = 'Tidak Ada Agenda';
+
+      DAYS.forEach((d, idx) => {
+        const date = addDays(weekStart, idx);
+        const dateKey = toDateInputValue(date);
+        const isDone = !!completed[dateKey];
+        const isWorkout = d.type === 'workout';
+        
+        if (isWorkout) {
+          if (isDone) workoutDone++;
+          else if (!firstRemaining) firstRemaining = d.day;
+        }
+        
+        if (toDateInputValue(today) === dateKey) {
+          todayLabel = `${d.day} : ${isWorkout ? 'Workout' : 'Rest Aktif'}`;
+        }
+
+        const card = document.createElement('article');
+        card.className = 'day-card';
+        card.innerHTML = `
+          <div class="day-tag ${isWorkout ? 'tag-workout' : 'tag-rest'}">
+            ${isWorkout ? 'TRAIN' : 'REST'} · ${d.day}
+          </div>
+          <h3 class="day-title">${d.title}</h3>
+          <p class="day-subtitle">${d.subtitle}</p>
+          <div class="small" style="margin-bottom:16px;">
+            <strong>Tanggal:</strong> ${formatShort(date)}
+          </div>
+          <div class="exercise-list">
+            ${d.exercises.map(ex => `
+              <div class="exercise">
+                <div class="exercise-name">${ex[0]}</div>
+                <div class="exercise-meta">${ex[1]}</div>
+              </div>
+            `).join('')}
+          </div>
+          <label class="check-row">
+            <input type="checkbox" data-date="${dateKey}" ${isDone ? 'checked' : ''} ${!isWorkout ? 'disabled' : ''} />
+            <div class="custom-checkbox"></div>
+            <span>${isWorkout ? 'Tandai Selesai' : 'Otomatis Selesai (Rest)'}</span>
+          </label>
+        `;
+        elements.weekGrid.appendChild(card);
+      });
+
+      const percent = Math.round((workoutDone / 4) * 100);
+      elements.progressText.textContent = `${percent}%`;
+      elements.weeklyStatus.textContent = `${workoutDone} / 4 Selesai`;
+      elements.todayStatus.textContent = todayLabel;
+      elements.nextWorkout.textContent = firstRemaining || 'Semua Selesai';
+
+      document.querySelectorAll('input[type="checkbox"][data-date]').forEach(cb => {
+        cb.addEventListener('change', (e) => {
+          const data = loadData();
+          data.completed = data.completed || {};
+          data.completed[e.target.dataset.date] = e.target.checked;
+          data.weekStart = elements.weekStart.value;
+          data.mode = elements.programMode.value;
+          saveData(data);
+          renderWeek();
+        });
+      });
+    }
+
+    function renderLogs() {
+      const logs = loadLogs();
+      const entries = Object.entries(logs).sort((a, b) => {
+        const order = DAYS.map(d => d.key);
+        return order.indexOf(a[0]) - order.indexOf(b[0]);
+      });
+      
+      if (!entries.length) {
+        elements.savedList.innerHTML = '<div class="small" style="padding: 16px;">Belum ada catatan yang disimpan untuk minggu ini.</div>';
+        return;
+      }
+      
+      elements.savedList.innerHTML = entries.map(([key, value]) => {
+        const dayData = DAYS.find(d => d.key === key);
+        const dayName = dayData ? dayData.day : key;
+        const typeClass = dayData && dayData.type === 'workout' ? 'done' : 'rest';
+        return `
+          <div class="log-item">
+            <div class="log-item-head">
+              <strong>${dayName}</strong>
+              <span class="pill ${typeClass}">Energi: ${value.rating || '-'}/10</span>
+            </div>
+            <div class="small" style="white-space:pre-wrap; line-height:1.6; color: var(--ink);">${escapeHtml(value.text || '')}</div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function escapeHtml(str) {
+      return String(str).replace(/[&<>"']/g, m => ({
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;'
+      })[m]);
+    }
+
+    function showModal(message, type = 'alert', callback = null) {
+      const overlay = document.getElementById('customModal');
+      const text = document.getElementById('modalText');
+      const btnContainer = document.getElementById('modalButtons');
+      
+      text.textContent = message;
+      btnContainer.innerHTML = '';
+      
+      if (type === 'alert') {
+        const btn = document.createElement('button');
+        btn.className = 'btn good';
+        btn.textContent = 'Mengerti';
+        btn.onclick = () => {
+          overlay.style.display = 'none';
+          if (callback) callback();
+        };
+        btnContainer.appendChild(btn);
+      } else if (type === 'confirm') {
+        const btnCancel = document.createElement('button');
+        btnCancel.className = 'btn secondary';
+        btnCancel.textContent = 'Batal';
+        btnCancel.onclick = () => { overlay.style.display = 'none'; };
+        
+        const btnOk = document.createElement('button');
+        btnOk.className = 'btn danger';
+        btnOk.textContent = 'Lanjutkan';
+        btnOk.onclick = () => {
+          overlay.style.display = 'none';
+          if (callback) callback();
+        };
+        
+        btnContainer.appendChild(btnCancel);
+        btnContainer.appendChild(btnOk);
+      }
+      
+      overlay.style.display = 'flex';
+    }
+
+    function setupCustomSelects() {
+      const selects = document.getElementsByClassName("custom-select");
+      for (let i = 0; i < selects.length; i++) {
+        const selElmnt = selects[i];
+        
+        const existingSelected = selElmnt.nextElementSibling;
+        if (existingSelected && existingSelected.classList.contains("select-selected")) {
+          existingSelected.remove();
+        }
+        const existingItems = selElmnt.parentElement.querySelector(".select-items");
+        if (existingItems) {
+          existingItems.remove();
+        }
+
+        const a = document.createElement("DIV");
+        a.setAttribute("class", "select-selected");
+        a.innerHTML = selElmnt.options[selElmnt.selectedIndex].innerHTML;
+        selElmnt.parentElement.appendChild(a);
+        
+        const b = document.createElement("DIV");
+        b.setAttribute("class", "select-items select-hide");
+        
+        for (let j = 0; j < selElmnt.length; j++) {
+          const c = document.createElement("DIV");
+          c.innerHTML = selElmnt.options[j].innerHTML;
+          c.addEventListener("click", function(e) {
+            const s = this.parentNode.parentNode.getElementsByTagName("select")[0];
+            const h = this.parentNode.previousSibling;
+            for (let i = 0; i < s.length; i++) {
+              if (s.options[i].innerHTML == this.innerHTML) {
+                s.selectedIndex = i;
+                h.innerHTML = this.innerHTML;
+                
+                s.dispatchEvent(new Event('change'));
+                
+                const y = this.parentNode.getElementsByClassName("same-as-selected");
+                for (let k = 0; k < y.length; k++) {
+                  y[k].removeAttribute("class");
+                }
+                this.setAttribute("class", "same-as-selected");
+                break;
+              }
+            }
+            h.click();
+          });
+          b.appendChild(c);
+        }
+        selElmnt.parentElement.appendChild(b);
+        
+        a.addEventListener("click", function(e) {
+          e.stopPropagation();
+          closeAllSelect(this);
+          this.nextSibling.classList.toggle("select-hide");
+          this.classList.toggle("select-arrow-active");
+        });
+      }
+    }
+
+    function updateCustomSelectsValue(selectElement) {
+      const selectedDiv = selectElement.nextElementSibling;
+      if (selectedDiv && selectedDiv.classList.contains("select-selected")) {
+        selectedDiv.innerHTML = selectElement.options[selectElement.selectedIndex].innerHTML;
+      }
+    }
+
+    function closeAllSelect(elmnt) {
+      const x = document.getElementsByClassName("select-items");
+      const y = document.getElementsByClassName("select-selected");
+      const arrNo = [];
+      for (let i = 0; i < y.length; i++) {
+        if (elmnt == y[i]) {
+          arrNo.push(i)
+        } else {
+          y[i].classList.remove("select-arrow-active");
+        }
+      }
+      for (let i = 0; i < x.length; i++) {
+        if (arrNo.indexOf(i)) {
+          x[i].classList.add("select-hide");
+        }
+      }
+    }
+
+    document.addEventListener("click", closeAllSelect);
+
+    elements.saveWeekBtn.addEventListener('click', () => {
+      const state = loadData();
+      state.weekStart = elements.weekStart.value;
+      state.mode = elements.programMode.value;
+      saveData(state);
+      renderWeek();
+      showModal('Pengaturan minggu ini berhasil disimpan.', 'alert');
+    });
+
+    elements.resetWeekBtn.addEventListener('click', () => {
+      const state = loadData();
+      state.completed = {};
+      saveData(state);
+      renderWeek();
+    });
+
+    elements.clearAllBtn.addEventListener('click', () => {
+      showModal('Peringatan: Semua data latihan dan catatan akan dihapus permanen. Apakah Anda yakin?', 'confirm', () => {
+        localStorage.removeItem(STORAGE_KEY);
+        localStorage.removeItem(logStorageKey);
+        initControls();
+        selectedLogDay = 'mon';
+        updateLogEditor();
+        renderWeek();
+        renderLogs();
+      });
+    });
+
+    elements.exportBtn.addEventListener('click', () => {
+      const payload = { week: loadData(), logs: loadLogs(), exportedAt: new Date().toISOString() };
+      const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'workout-tracker-backup.json';
+      a.click();
+      URL.revokeObjectURL(url);
+    });
+
+    elements.saveLogBtn.addEventListener('click', () => {
+      const logs = loadLogs();
+      logs[selectedLogDay] = { text: elements.logText.value.trim(), rating: elements.logRating.value, updatedAt: new Date().toISOString() };
+      saveLogs(logs);
+      renderLogs();
+    });
+
+    elements.clearLogBtn.addEventListener('click', () => {
+      const logs = loadLogs();
+      delete logs[selectedLogDay];
+      saveLogs(logs);
+      renderLogs();
+      updateLogEditor();
+    });
+
+    elements.weekStart.addEventListener('change', () => {
+      const state = loadData();
+      state.weekStart = elements.weekStart.value;
+      saveData(state);
+      renderWeek();
+    });
+
+    elements.programMode.addEventListener('change', () => {
+      const state = loadData();
+      state.mode = elements.programMode.value;
+      saveData(state);
+    });
+
+    initControls();
+    renderDaySelect();
+    setupCustomSelects(); 
+    updateLogEditor();
+    renderWeek();
+    renderLogs();
+  </script>
+</body>
+</html>
